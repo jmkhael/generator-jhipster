@@ -514,6 +514,60 @@ Generator.prototype.addBowerrcParameter = function (key, value) {
 };
 
 /**
+ * Add a new dependency in the "package.json".
+ *
+ * @param {string} name - dependency name
+ * @param {string} version - dependency version
+ */
+Generator.prototype.addNpmDependency = function (name, version) {
+    var fullPath = 'package.json';
+    try {
+        jhipsterUtils.rewriteJSONFile(fullPath, function (jsonObj) {
+            jsonObj.dependencies[name] = version;
+        }, this);
+    } catch (e) {
+        this.log(e);
+        this.log(chalk.yellow('\nUnable to find ') + fullPath + chalk.yellow('. Reference to ') + 'npm dependency (name: ' + name + ', version:' + version + ')' + chalk.yellow(' not added.\n'));
+    }
+};
+
+/**
+ * Add a new devDependency in the "package.json".
+ *
+ * @param {string} name - devDependency name
+ * @param {string} version - devDependency version
+ */
+Generator.prototype.addNpmDevDependency = function (name, version) {
+    var fullPath = 'package.json';
+    try {
+        jhipsterUtils.rewriteJSONFile(fullPath, function (jsonObj) {
+            jsonObj.devDependencies[name] = version;
+        }, this);
+    } catch (e) {
+        this.log(e);
+        this.log(chalk.yellow('\nUnable to find ') + fullPath + chalk.yellow('. Reference to ') + 'npm devDependency (name: ' + name + ', version:' + version + ')' + chalk.yellow(' not added.\n'));
+    }
+};
+
+/**
+ * Add a new script in the "package.json".
+ *
+ * @param {string} name - script name
+ * @param {string} data - script version
+ */
+Generator.prototype.addNpmScript = function (name, data) {
+    var fullPath = 'package.json';
+    try {
+        jhipsterUtils.rewriteJSONFile(fullPath, function (jsonObj) {
+            jsonObj.scripts[name] = data;
+        }, this);
+    } catch (e) {
+        this.log(e);
+        this.log(chalk.yellow('\nUnable to find ') + fullPath + chalk.yellow('. Reference to ') + 'npm script (name: ' + name + ', data:' + data + ')' + chalk.yellow(' not added.\n'));
+    }
+};
+
+/**
  * Add a new module to the angular application in "app.module.js".
  *
  * @param {string} moduleName - module name
@@ -1037,7 +1091,7 @@ Generator.prototype.copyTemplate = function (source, dest, action, generator, op
         jhipsterUtils.copyWebResource(source, dest, regex, 'html', _this, _opt, template);
         break;
     case 'stripJs' :
-        regex = /(\,[\s]*(resolve)\:[\s]*[\[]?[\{][\s]*(translatePartialLoader|token: 'translate')[\[]?[\'a-zA-Z0-9\$\,\(\)\{\}\.\<\%\=\-\>\;\s\:\[\]]*(\;[\s]*\}\][\s]*\}|\)[\s]*\}\]))|(import\s\{\s?[a-zA-Z0-9\=\<\>\%]*LanguageService\s?\}\sfrom\s[\"|\']ng-jhipster[\"|\']\;)/g;
+        regex = /(\,[\s]*(resolve)\:[\s]*[\[]?[\{][\s]*(translatePartialLoader|token: 'translate')[\[]?[\'a-zA-Z0-9\$\,\(\)\{\.\<\%\=\-\>\;\s\:\[\]]*(\;[\s]*\}\][\s]*\}|\)[\s]*\}\]))|(import\s\{\s?[a-zA-Z0-9\=\<\>\%]*LanguageService\s?\}\sfrom\s[\"|\']ng-jhipster[\"|\']\;)/g;
         //looks for something like translatePartialLoader: [*] or token: 'translate'
         jhipsterUtils.copyWebResource(source, dest, regex, 'js', _this, _opt, template);
         break;

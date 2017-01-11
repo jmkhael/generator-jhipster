@@ -1,10 +1,10 @@
-import { Transition } from 'ui-router-ng2';
+import { Transition, Ng2StateDeclaration } from 'ui-router-ng2';
 import { JhiLanguageService } from 'ng-jhipster';
 
 import { <%=jhiPrefixCapitalized%>TrackerComponent } from './tracker.component';
 import { <%=jhiPrefixCapitalized%>TrackerService } from '../../shared';
 
-export const trackerState = {
+export const trackerState: Ng2StateDeclaration = {
     name: '<%=jhiPrefix%>-tracker',
     parent: 'admin',
     url: '/tracker',
@@ -18,7 +18,7 @@ export const trackerState = {
     resolve: [{
         token: 'translate',
         deps: [JhiLanguageService],
-        resolveFn: (languageService) => languageService.setLocations(['tracker'])
+        resolveFn: (languageService: JhiLanguageService) => languageService.setLocations(['tracker'])
     }],
     onEnter: (trans: Transition) => {
         trans.injector().get(<%=jhiPrefixCapitalized%>TrackerService).subscribe();
@@ -26,4 +26,4 @@ export const trackerState = {
     onExit: (trans: Transition) => {
         trans.injector().get(<%=jhiPrefixCapitalized%>TrackerService).unsubscribe();
     }
-}
+};

@@ -1,7 +1,8 @@
+import { Ng2StateDeclaration } from "ui-router-ng2";
 import { JhiLanguageService } from 'ng-jhipster';
 import { <%=jhiPrefixCapitalized%>ConfigurationComponent } from './configuration.component';
 
-export const configState = {
+export const configState: Ng2StateDeclaration = {
     name: '<%=jhiPrefix%>-configuration',
     parent: 'admin',
     url: '/configuration',
@@ -15,6 +16,6 @@ export const configState = {
     resolve: [{
         token: 'translate',
         deps: [JhiLanguageService],
-        resolveFn: (languageService) => languageService.setLocations(['configuration'])
+        resolveFn: (languageService: JhiLanguageService) => languageService.setLocations(['configuration'])
     }]
 };

@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Response } from '@angular/http';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager } from 'ng-jhipster';
+import { EventManager, AlertService } from 'ng-jhipster';
 
 import { <%= entityClass %> } from './<%= entityFileName %>.model';
 import { <%= entityClass %>Service } from './<%= entityFileName %>.service';
-import { AlertService } from '../../shared';
 <%- include('model-class-import-template.ejs'); -%>
 <%- include('service-class-import-template.ejs'); -%>
 // TODO replace ng-file-upload dependency by an ng2 depedency
@@ -101,12 +100,14 @@ export class <%= entityAngularJSName %>DialogComponent implements OnInit {
         this.alertService.error(error.message, null, null);
     }
     <%_
-    for (idx in relationships) {
-        var otherEntityNameCapitalized = relationships[idx].otherEntityNameCapitalized; _%>
-    track<%- otherEntityNameCapitalized %>ById(index, item: <%- relationships[idx].otherEntityNameCapitalized %>) {
+    var entitiesSeen = [];
+    for (idx in relationships) { _%>
+    <%  var otherEntityNameCapitalized = relationships[idx].otherEntityNameCapitalized;
+        if(entitiesSeen.indexOf(otherEntityNameCapitalized) == -1) { %>
+    track<%- otherEntityNameCapitalized -%>ById(index: number, item: <%- relationships[idx].otherEntityNameCapitalized -%>) {
         return item.id;
     }
-    <%_ } _%>
+    <%_ entitiesSeen.push(otherEntityNameCapitalized); } } _%>
 
     <%_ if (hasManyToMany) { _%>
     getSelected(selectedVals: Array<any>, option: any) {
