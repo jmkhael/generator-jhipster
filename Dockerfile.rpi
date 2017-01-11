@@ -25,7 +25,7 @@ RUN \
      g++ \
      build-essential && \
 
-  # install node.js
+  #  no need to install node.js - comes in the base image
   #  curl -sL https://deb.nodesource.com/setup_6.x | bash && \
   # apt-get install -y nodejs && \
 
